@@ -45,13 +45,12 @@ class CapitalOne(object):
         result = None
         for obj in data:
             if obj['_id'] == AccountID:
+                obj['id'] = AccountID
+                del obj['_id']
                 return obj
         
         return None
         
 
-
-co = CapitalOne()
-print(co.GetInfo("56c66be6a73e492741507558", "580bb39d360f81f104544dc0"))
 
 
