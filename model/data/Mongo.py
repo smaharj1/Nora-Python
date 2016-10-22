@@ -9,7 +9,7 @@ class Mongo(object):
         app.config['MONGO_DBNAME'] = 'Nora'
         self.mongo = PyMongo(app, config_prefix='MONGO')
 
-    def UpdateFields(self, phone, fields):
+    def UpdateBankFields(self, phone, fields):
         self.mongo.db.Users.update({'phone' : phone}, { '$set' : {'balance' : fields['balance'], 'rewards' : fields['rewards']} }, upsert=False)
 
     def Find(self, phone):
@@ -34,6 +34,13 @@ class Mongo(object):
         else:
             return False
 
+
+    def GetUserData(self, phone):
+        user = self.Find(phone)
+        if user == None:
+            return None
+        
+        return user
     
 
 

@@ -33,10 +33,12 @@ class Accounts(object):
         account = doc['account_number']
 
         bankinfo = co.GetInfo(id, account)
-        db.UpdateFields(phone, bankinfo)
+        db.UpdateBankFields(phone, bankinfo)
 
         
-
+    @staticmethod
+    def GetUserData(db, phone):
+        return db.GetUserData(phone)
 
     @staticmethod
     def CheckForUser(db, phone):
