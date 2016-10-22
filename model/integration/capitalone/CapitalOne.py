@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 class CapitalOne(object):  
     API_ID = "56c66be6a73e492741507558"  
     API_KEY = "492a87eea5a538d79e8485139235f42b"
@@ -21,8 +20,7 @@ class CapitalOne(object):
         "rewards": 10000,
         "balance": 512,	
         }
-        
-        # Create a Savings Account
+
         response = requests.post( 
             url, 
             data=json.dumps(payload),
@@ -34,9 +32,26 @@ class CapitalOne(object):
         if response.status_code == 201:
             print('account created')
 
+    def GetInfo(self, UserID, AccountID):
+        url = 'http://api.reimaginebanking.com/customers/' + UserID + '/accounts?key=' + CapitalOne.API_KEY
+        response = requests.get(url)
+        
+        data = None
+        if(response.status_code == 200):
+            data = response.json()
+        else:
+            return None
+        
+        result = None
+        for obj in data:
+            if obj['_id'] == AccountID:
+                return obj
+        
+        return None
+        
 
 
 co = CapitalOne()
-co.GetAllInformation(24)
+print(co.GetInfo("56c66be6a73e492741507558", "580bb39d360f81f104544dc0"))
 
 

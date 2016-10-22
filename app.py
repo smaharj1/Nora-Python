@@ -12,5 +12,3 @@ def Hello(methods='GET'):
 
 
 
-
-
