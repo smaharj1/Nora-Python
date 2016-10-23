@@ -14,7 +14,7 @@ class Google(object):
 
     cj = CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    opener.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17')]
+    opener.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/54.0.2840.59 Safari/537.17')]
     google_url = "http://www.google.com/searchbyimage?image_url="
 
     def __init__(self):
@@ -39,7 +39,7 @@ class Google(object):
     def SearchImage(self, imageUrl):
 
         path = Google.google_url + imageUrl
-        #print(path)
+        print(path)
         sourceCode = Google.opener.open(path).read()
         soup = BeautifulSoup(sourceCode)
         remember = soup.select('.g > .rc > .r > a')
@@ -57,5 +57,5 @@ class Google(object):
 
         #print(corpus)
         #words = TopicExtractor.Extract(corpus)[:3]
-
+        print(tokens)
         return tokens[0]

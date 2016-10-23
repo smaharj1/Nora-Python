@@ -31,7 +31,7 @@ DemoURLs = [
 
 @app.route('/', methods=['GET', 'POST'])
 def Rootaschen():
-    return "<h1>Herpaderp</h1>"
+    return render_template('index.html')
 
 
 @app.route('/hello', methods=['POST'])
@@ -46,10 +46,8 @@ def CreateDemoUser():
         'phone': '+19084774708', 
         'account_id' : '56c66be6a73e492741507558', 
         'account_number': '580bb39d360f81f104544dc0', 
-        'items' : [
-            {'image' : "http://compass.xbox.com/assets/23/0d/230dc52a-8f0e-40bf-bbd1-c51fdb8371e3.png?n=Homepage-360-UA_Upgrade-big_1056x594.png"},
-            {'image' : "https://upload.wikimedia.org/wikipedia/commons/4/47/Soylent_2.0_2016.JPG"},
-        ]})
+        'items' : [],
+        'tags' : {}})
     
     if result == 0:
         print('User created.\n')

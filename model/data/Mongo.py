@@ -48,7 +48,6 @@ class Mongo(object):
 
 
     def UpdateWithPost(self, data):
-        print("Phone " + data['phone'])
         try:
             current = self.Find(data['phone'])['items']
 
@@ -58,6 +57,24 @@ class Mongo(object):
 
             current.append(data)
             self.mongo.db.Users.update({'phone' : data['phone']}, { '$set' : {'items' : current} }, upsert=False)
-            
+
         except Exception as e:
             print(str(e))
+
+
+    def UpdateTags(self, phone, tags):
+        current = self.Find(phone)['items']
+        print('\n\n')
+        print(current.prettify())
+        if current == None:
+            print("No document found ...")
+            return None
+            
+        for tag in tags:
+            if tag in current:
+                current[tag] =  current[tag] + 1
+            else:
+                self[tag] = 1
+
+        self.mongo.db.Users.update({'phone' : data['phone']}, { '$set' : {'tags' : current} }, upsert=False)
+

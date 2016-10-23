@@ -18,19 +18,21 @@ class Processor(object):
         amazon = AmazonController()
 
         tokens = google.GetTokens(imageUrl)
+        tags = google.GetLabels(imageUrl)
         itemInfo = amazon.searchProduct(tokens)
 
         print('Storing process results ...')
         # Log the query
-        log = {
-            'phone' : phone,
-            'image' : imageUrl,
-            'url' : itemInfo['url'],
-            'title' : itemInfo['title'],
-            'tokens' : tokens }
+        log = { 'phone' : phone,
+                'image' : imageUrl,
+                'url' : itemInfo['url'],
+                'title' : itemInfo['title'],
+                'tokens' : tokens,
+                'tags' : tags }
 
         self.db.LogQuery(log)
         self.db.UpdateWithPost(log)
+        self.db.UpdateTags(phone, tags)
 
 
     
