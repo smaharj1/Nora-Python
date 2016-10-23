@@ -45,12 +45,17 @@ class Google(object):
         remember = soup.select('.g > .rc > .r > a')
         remember += soup.select('span.st')
 
+        emphases = soup.select('em')
+        
+        tokens = [item.text for item in emphases]
+        print(tokens)
+
         corpus = []
 
         for elem in remember:
             corpus.append(self.pattern.sub('', elem.text).lower())
 
         #print(corpus)
-        words = TopicExtractor.Extract(corpus)[:3]
+        #words = TopicExtractor.Extract(corpus)[:3]
 
-        return corpus[0]
+        return tokens[0]

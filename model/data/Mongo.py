@@ -43,4 +43,21 @@ class Mongo(object):
         return user
     
 
+    def LogQuery(self, queryobj):
+        self.mongo.db.Queries.insert_one(queryobj)
 
+
+    def UpdateWithPost(self, data):
+        print("Phone " + data['phone'])
+        try:
+            current = self.Find(data['phone'])['items']
+
+            if current == None:
+                print("No results for storing data ...")
+                return None
+
+            current.append(data)
+            self.mongo.db.Users.update({'phone' : data['phone']}, { '$set' : {'items' : current} }, upsert=False)
+            
+        except Exception as e:
+            print(str(e))

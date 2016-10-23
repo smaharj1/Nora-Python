@@ -11,25 +11,18 @@ class AmazonController:
         cred = AWSCredentials.getAWSCredentials()
         self.amazon = AmazonAPI(cred['ACCESS_KEY'],cred['SECRET_KEY'],cred['LOCALE'])
 
-    def searchProduct(self,product):
+    def searchProduct(self, product):
 
         tokens = product['tokens']
         tags = product['tags']
 
-        results = []
+        print("Searching for " + str(tokens))
 
-        for token in tokens:
-            query = self.amazon.search_n(1,Keywords=token, SearchIndex="All")
-            if len(query) > 0:
-                results.append(query[0])
-            time.sleep(1)
+        query = self.amazon.search_n(1,Keywords=tokens, SearchIndex="All")[0]
         
-        finalResults = []
+        result = { 'title': query.title,
+                    'price': query.price_and_currency,
+                    'url': query.offer_url,
+                    'image': query.small_image_url}
 
-        for result in results:
-            finalResults.append({ 'title': result.title,
-                        'price': result.price_and_currency,
-                        'url': result.offer_url,
-                        'image': result.small_image_url})
-
-        return finalResults
+        return result
