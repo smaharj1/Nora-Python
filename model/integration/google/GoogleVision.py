@@ -8,8 +8,6 @@ from oauth2client.client import GoogleCredentials
 def get_photo_description(photo_file):
     """Run a label request on a single image"""
 
-    # Need something for the photo file here
-
     credentials = GoogleCredentials.get_application_default()
     service = discovery.build('vision', 'v1', credentials=credentials)
 
@@ -38,7 +36,8 @@ def get_photo_description(photo_file):
             for logo in logoResponses:
                 label += logo['description'] + " "
         except:
-
+            pass
+        
         for oneR in labelResponses:
             label = label + oneR['description'] + " "
             
@@ -46,8 +45,12 @@ def get_photo_description(photo_file):
 
         return label
 
-if __name__ == '__main__':
+
+#print(get_photo_description('/Users/nate/Downloads/ps4.png'))
+
+
+"""if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('image_file', help='The image you\'d like to label.')
     args = parser.parse_args()
-    main(args.image_file)
+    main(args.image_file)"""
