@@ -10,19 +10,24 @@ from model.Accounts import Accounts
 app = Flask(__name__)
 db = Mongo(app)
 
+@app.route('/', methods=['GET'])
+def Rootaschen():
+    return "<h1>Herpaderp</h1>"
+
+
 @app.route('/hello', methods=['POST'])
 def Hello():
     data = TwilioController.getMessage(request)
     print(data)
     return data
 
-@app.route('/createUser', methods=['GET', 'POST'])
-def CreateUser():
+@app.route('/createDemoUser', methods=['GET', 'POST'])
+def CreateDemoUser():
     result = Accounts.CreateNewUser(db, {'name' : 'Herb Muddlefoot', 
                     'phone': '908-477-4708', 
                     'account_id' : '56c66be6a73e492741507558', 
                     'account_number': '580bb39d360f81f104544dc0', 
-                    'items' : []})
+                    'items' : [{'image': 'https://media.playstation.com/is/image/SCEA/playstation-4-pro-horizontal-product-shot-01-us-07sep16?$TwoColumn_Image$'}]})
     
     if result == 0:
         print('User created.\n')
