@@ -46,8 +46,6 @@ class Google(object):
 
         return result
 
-        
-
 
 
     def GetLabels(self, imageUrl):
