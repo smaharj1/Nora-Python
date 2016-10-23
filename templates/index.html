@@ -43,6 +43,8 @@
                 padding-left: 10px;
                 padding-right: 10px;
                 cursor: pointer;
+                text-align: left;
+                font-size: larger;
             }
 
             img {
@@ -54,15 +56,14 @@
                 vertical-align: center;
                 text-align: center;
                 padding: 25px;
+                overflow-y: scroll;
             } 
-                    </style>
+        </style>
         <script>
             $(document).ready(function () {
-
                 $(".nora-intro").hide();
                 $("#nora-nora").hide();
                 
-
                 $(".nora-intro").fadeIn(4000, function() {
                     // Animation complete
                 });
@@ -92,9 +93,16 @@
                     }).done(function(data) {
                         var pData = JSON.parse(data);
                         
-                        var content = $('.modal-content');
-                        content.empty()
+                        var content = $('.modal-content .pic');
+                        content.empty();
                         content.append("<img src="+clickedUrl+"/>");
+                        
+                        $('.title').html(pData['title']);
+                        $('.price').html("$" + pData['price']);
+                        $('.token').html(pData['tokens']['tokens']);
+                        $('.tags').html(pData['tokens']['tags'].join(', '));
+                        $('.balanceAfter').html("$" + round(pData['newBalance'], 2));
+                        $('.percentDecrease').html(round(pData['rate'], 2) + "%");
                         
                     });
                 });
@@ -114,6 +122,10 @@
                     $('.images').children().last().append("<td><img class=\"img-responsive img-thumbnail\" data-toggle=\"modal\" data-target=\".bs-example-modal-lg\"src="+imageURL+"></td>");
                 }
             }
+            
+            function round(value, decimals) {
+                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+            }
         </script>
     </head>
     <body>
@@ -124,7 +136,7 @@
         </div>
 
         <div class="container">
-            <h1>Here are your items in your wishlist</h1>
+            <h1>Here's what you've been looking at</h1>
 
             <table class="table">
                 <tbody class="images">
@@ -139,8 +151,42 @@
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="center">
+                <div class="center row pic">
                     
+                </div>
+                <hr>
+                <br>
+                <div class="center row info">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Title: </td>
+                                <td class='title'></td>
+                            </tr>
+                            <tr>
+                                <td>Price: </td>
+                                <td class='price'></td>
+                            </tr>
+                            <tr>
+                                <td>Token: </td>
+                                <td class='token'></td>
+                            </tr>
+                            <tr>
+                                <td>Tags: </td>
+                                <td class='tags'></td>
+                            </tr>
+                            <tr>
+                                <td>Balance after purchase: </td>
+                                <td class='balanceAfter'></td>
+                            </tr>
+                            <tr>
+                                <td>Percent Decrease: </td>
+                                <td class='percentDecrease'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
                 </div>
             
             </div>

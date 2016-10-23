@@ -59,8 +59,16 @@ class Accounts(object):
     
     @staticmethod
     def GetBankStats(db, phone, url):
-        balance, price = db.GetBalanceAndPrice(phone, url)
-        results = BalanceAnalytics.checkBalanceChangeEffects(price[0], balance)
+        balance, price, title, tokens, url = db.GetBalanceAndPrice(phone, url)
+        tmp = BalanceAnalytics.checkBalanceChangeEffects(price[0], balance)
+        results = {}
+        results['balance'] = balance
+        results['price'] = price[0]
+        results['title'] = title
+        results['tokens'] = tokens
+        results['url'] = url
+        results['newBalance'] = tmp['newBalance']
+        results['rate'] = tmp['rate']
         return results
 
 

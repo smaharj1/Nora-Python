@@ -87,7 +87,7 @@ class Mongo(object):
 
         for item in items:
             if item['image'] == url:
-                return (balance, item['price'],)
+                return (balance, item['price'], item['title'], item['tokens'], item['url'])
         
         return None
 

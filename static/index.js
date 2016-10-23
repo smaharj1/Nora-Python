@@ -36,10 +36,11 @@ $(document).ready(function () {
         }).done(function(data) {
             var pData = JSON.parse(data);
             
-            var content = $('.modal-content');
+            var content = $('.modal-content > .pic');
             content.append("<img src="+clickedUrl+"/>");
-            
+
         });
+
     });
 });
 

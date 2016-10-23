@@ -96,6 +96,7 @@ def ProcessImage():
 
 @app.route('/bankAnalytics', methods=['POST'])
 def BankAnalytics():
+    print("Her we go")
     phone = request.values.get('phone')
     image = request.values.get('url')
     Accounts.UpdateBankInfo(db, phone)
