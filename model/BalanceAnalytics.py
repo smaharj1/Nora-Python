@@ -7,10 +7,15 @@ class BalanceAnalytics:
 
     @staticmethod
     def checkBalanceChangeEffects(price, balance):
-        newBalance = BalanceAnalytics.checkBalanceAfterPurchase(price,balance)
-        expenditure = balance-newBalance
-        rate = expenditure*100/balance
-        return {'newBalance':newBalance, 'rate': rate }
+        try:
+            newBalance = BalanceAnalytics.checkBalanceAfterPurchase(price,balance)
+            expenditure = balance-newBalance
+            rate = expenditure*100/balance
+            return {'newBalance':newBalance, 'rate': rate }
+            
+        except:
+
+            return {'newBalance': 0, 'rate': 0 }
     
  
         

@@ -59,11 +59,15 @@ class Mongo(object):
             self.mongo.db.Users.update({'phone' : data['phone']}, { '$set' : {'items' : current} }, upsert=False)
 
         except Exception as e:
-            print(str(e))
+            print('Mongo: ' + str(e))
 
 
     def UpdateTags(self, phone, tags):
-        current = self.Find(phone)['tags']
+        try:
+            current = self.Find(phone)['tags']
+        except:
+            current = None
+            return
         print(current)
         if current == None:
             print("No document found ...")
@@ -88,7 +92,7 @@ class Mongo(object):
         for item in items:
             if item['image'] == url:
                 return (balance, item['price'], item['title'], item['tokens'], item['url'])
-        
+        print("Returingn none")
         return None
 
 

@@ -103,7 +103,7 @@
                         $('.tags').html(pData['tokens']['tags'].join(', '));
                         $('.balanceAfter').html("$" + round(pData['newBalance'], 2));
                         $('.percentDecrease').html(round(pData['rate'], 2) + "%");
-                        
+                        $('.url').html("<a target='_blank' href='" + pData['url'] + "'>" + pData['url'] + "</a>");
                     });
                 });
             });
@@ -182,6 +182,10 @@
                             <tr>
                                 <td>Percent Decrease: </td>
                                 <td class='percentDecrease'></td>
+                            </tr>
+                            <tr>
+                                <td>URL: </td>
+                                <td class='url'></td>
                             </tr>
                         </tbody>
                     </table>
