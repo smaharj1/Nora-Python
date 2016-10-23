@@ -1,4 +1,5 @@
 from integration.capitalone.CapitalOne import CapitalOne
+from model.BalanceAnalytics import BalanceAnalytics
 
 class Accounts(object):
 
@@ -56,3 +57,11 @@ class Accounts(object):
             return False
         return True
     
+    @staticmethod
+    def GetBankStats(db, phone, url):
+        balance, price = db.GetBalanceAndPrice(phone, url)
+        results = BalanceAnalytics.checkBalanceChangeEffects(price[0], balance)
+        return results
+
+
+

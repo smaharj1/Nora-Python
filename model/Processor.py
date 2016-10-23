@@ -28,7 +28,8 @@ class Processor(object):
                 'url' : itemInfo['url'],
                 'title' : itemInfo['title'],
                 'tokens' : tokens,
-                'tags' : tags }
+                'tags' : tags,
+                'price' : itemInfo['price'] }
 
         self.db.LogQuery(log)
         self.db.UpdateWithPost(log)

@@ -94,9 +94,12 @@ def ProcessImage():
     return "Good stuff\n"
 
 
-
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
-
-
-
+@app.route('/bankAnalytics', methods=['POST'])
+def BankAnalytics():
+    phone = request.values.get('phone')
+    image = request.values.get('url')
+    Accounts.UpdateBankInfo(db, phone)
+    results = Accounts.GetBankStats(db, phone, image)
+    resp = Response(json.dumps(results))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp

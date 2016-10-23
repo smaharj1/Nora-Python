@@ -2,20 +2,15 @@ class BalanceAnalytics:
 
    
     @staticmethod
-    def checkBalanceAfterPurchase(items,balance):
-        finalBalance = balance
-        for i in items:
-            finalBalance = finalBalance - i['price']
-        return finalBalance 
+    def checkBalanceAfterPurchase(price, balance):
+        return balance - price
 
     @staticmethod
-    def checkBalanceChangeEffects(items, balance):
-        newBalance = self.checkBalanceAfterPurchase(items,balance)
+    def checkBalanceChangeEffects(price, balance):
+        newBalance = BalanceAnalytics.checkBalanceAfterPurchase(price,balance)
         expenditure = balance-newBalance
         rate = expenditure*100/balance
-        return {'newBalance':newBalance,
-                'rate': rate 
-                }
+        return {'newBalance':newBalance, 'rate': rate }
     
  
         
