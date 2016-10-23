@@ -1,6 +1,6 @@
 from amazon.api import AmazonAPI
 from AWSCredentials import CredentialsExractor as AWSCredentials
-
+import time
 
 
 
@@ -11,7 +11,7 @@ class AmazonController:
         cred = AWSCredentials.getAWSCredentials()
         self.amazon = AmazonAPI(cred['ACCESS_KEY'],cred['SECRET_KEY'],cred['LOCALE'])
 
-    def searchProduct(self,product,category):
+    def searchProduct(self,product):
 
         tokens = product['tokens']
         tags = product['tags']
@@ -22,6 +22,7 @@ class AmazonController:
             query = self.amazon.search_n(1,Keywords=token, SearchIndex="All")
             if len(query) > 0:
                 results.append(query[0])
+            time.sleep(1)
         
         finalResults = []
 
@@ -32,8 +33,3 @@ class AmazonController:
                         'image': result.small_image_url})
 
         return finalResults
-
-
-
-a = AmazonController()
-print(a.searchProduct({'tokens': ['PS4'], 'tags' : ['herp']}, "blerp"))
