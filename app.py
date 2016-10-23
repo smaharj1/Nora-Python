@@ -103,3 +103,9 @@ def BankAnalytics():
     resp = Response(json.dumps(results))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+
+@app.route('/deleteItem', methods=['POST'])
+def DeleteItem():
+    phone = request.values.get('phone')
+    image = request.values.get('url')

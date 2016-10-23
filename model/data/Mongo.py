@@ -92,3 +92,8 @@ class Mongo(object):
         return None
 
 
+    def DeleteItem(self, phone, url):
+        
+        return None
+
+

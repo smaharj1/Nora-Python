@@ -1,0 +1,35 @@
+.intro {
+    min-height: 70vh;
+    vertical-align: center;
+    text-align: center;
+    padding-top: 100px;
+    background-color: #FAEBD7;
+}
+
+#nora-nora {
+    font-size: 100px;
+    color: green;
+}
+
+img {
+    height: 400px !important;
+    width: 300px !important;
+    object-fit: cover;
+}
+
+td {
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+img {
+    cursor: pointer;
+    
+}
+
+.modal-content {
+    vertical-align: center;
+    text-align: center;
+    padding: 25px;
+}

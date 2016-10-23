@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+    <head>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Libre+Baskerville|Taviraj" rel="stylesheet">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style>
+
+            body  {
+                font-family: "Josefin Sans", serif;
+            }
+
+            .intro {
+                min-height: 70vh;
+                vertical-align: center;
+                text-align: center;
+                padding-top: 100px;
+                background-color: #FAEBD7;
+            }
+
+            #nora-nora {
+                font-size: 100px;
+                color: green;
+            }
+
+            img {
+                height: 400px !important;
+                width: 300px !important;
+                object-fit: cover;
+            }
+
+            td {
+                padding-left: 10px;
+                padding-right: 10px;
+                cursor: pointer;
+            }
+
+            img {
+                cursor: pointer;
+                
+            }
+
+            .modal-content {
+                vertical-align: center;
+                text-align: center;
+                padding: 25px;
+            } 
+                    </style>
+        <script>
+            $(document).ready(function () {
+
+                $(".nora-intro").hide();
+                $("#nora-nora").hide();
+                
+
+                $(".nora-intro").fadeIn(4000, function() {
+                    // Animation complete
+                });
+                $("#nora-nora").fadeIn(4000, function() {
+                    // Animation complete
+                });
+
+                $.ajax({
+                    method: "GET",
+                    url: "http://cbf1bcba.ngrok.io/getUserData",
+                    datatype: "json"
+                })
+                .done(function( msg ) {
+                    parsedData = JSON.parse(msg);
+                    updatePictures(parsedData);
+                });
+
+
+                $('body').on('click','td img', function () {
+                    var clickedUrl = $(this).attr("src");
+
+                    $.ajax({
+                        method: "POST",
+                        url: "http://cbf1bcba.ngrok.io/bankAnalytics",
+                        datatype: "json",
+                        data: { phone: "+19084774708", url : clickedUrl} ,
+                    }).done(function(data) {
+                        var pData = JSON.parse(data);
+                        
+                        var content = $('.modal-content');
+                        content.empty()
+                        content.append("<img src="+clickedUrl+"/>");
+                        
+                    });
+                });
+            });
+
+
+            function updatePictures(parsedData) {
+                var items = parsedData.items;
+
+                for (i in items) {
+                    var imageURL = items[i].image;
+                    
+                    if ($('.images').children().last().children().size() == 3) {
+                        $('.images').append("<tr></tr>");
+                    }
+
+                    $('.images').children().last().append("<td><img class=\"img-responsive img-thumbnail\" data-toggle=\"modal\" data-target=\".bs-example-modal-lg\"src="+imageURL+"></td>");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class = "intro">
+            <h1 class = "nora-intro">Hi, I'm</h1>
+            <h1 id = "nora-nora">Nora.</h1>
+            <h1 class="nora-intro">I'll help you manage your ultimate wishlist.</h1> 
+        </div>
+
+        <div class="container">
+            <h1>Here are your items in your wishlist</h1>
+
+            <table class="table">
+                <tbody class="images">
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="center">
+                    
+                </div>
+            
+            </div>
+        </div>
+        </div>
+
+    </body>
+</html>

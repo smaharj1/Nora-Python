@@ -65,3 +65,7 @@ class Accounts(object):
 
 
 
+    @staticmethod
+    def DeleteItem(db, phone, url):
+        db.DeleteItem(phone, url)
+
