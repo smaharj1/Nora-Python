@@ -1,11 +1,11 @@
 from flask import Flask, render_template, url_for, request, session, redirect, Response
 from flask_pymongo import PyMongo
-import twilio.twiml
-from twilio.rest import TwilioRestClient
+#import twilio.twiml
+#from twilio.rest import TwilioRestClient
 from model.data.Mongo import Mongo
 from model.Accounts import Accounts
 import json, random
-from model.integration.twilio.TwilioController import TwilioController
+#from model.integration.twilio.TwilioController import TwilioController
 from model.Processor import Processor
 
 app = Flask(__name__)
@@ -36,9 +36,11 @@ def Rootaschen():
 
 @app.route('/hello', methods=['POST'])
 def Hello():
-    data = TwilioController.getMessage(request)
-    print(data)
-    return data
+    #data = TwilioController.getMessage(request)
+    #print(data)
+    #return data
+
+    return None
 
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():

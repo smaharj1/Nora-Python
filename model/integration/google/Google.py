@@ -1,4 +1,4 @@
-from GoogleVision import *
+from model.integration.google.GoogleVision import *
 import pysftp as sftp
 import urllib2
 from urllib2 import urlopen

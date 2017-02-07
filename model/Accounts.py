@@ -1,4 +1,4 @@
-from integration.capitalone.CapitalOne import CapitalOne
+from model.integration.capitalone.CapitalOne import CapitalOne
 from model.BalanceAnalytics import BalanceAnalytics
 
 class Accounts(object):
