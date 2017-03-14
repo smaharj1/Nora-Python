@@ -7,5 +7,5 @@ class CredentialsExractor:
         credentials = {}
         credentials['ACCESS_KEY'] = os.environ['AWS_ACCESS_KEY']
         credentials['SECRET_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
-        credentials['LOCALE'] = os.environ['AWS_LOCALE']
+        credentials['LOCALE'] = "us"
         return credentials

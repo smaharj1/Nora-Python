@@ -27,7 +27,8 @@ class Google(object):
         
         result['tokens'] = self.SearchImage(imageUrl)
         result['tags'] = self.GetLabels(imageUrl)
-
+        print("Result token:" + result['tokens'])
+        
         return result
 
 
@@ -39,7 +40,7 @@ class Google(object):
     def SearchImage(self, imageUrl):
 
         path = Google.google_url + imageUrl
-        print(path)
+
         sourceCode = Google.opener.open(path).read()
         soup = BeautifulSoup(sourceCode)
         remember = soup.select('.g > .rc > .r > a')
@@ -48,6 +49,7 @@ class Google(object):
         emphases = soup.select('em')
         
         tokens = [item.text for item in emphases]
+        print("TOKENS: ")
         print(tokens)
 
         corpus = []
@@ -57,5 +59,6 @@ class Google(object):
 
         #print(corpus)
         #words = TopicExtractor.Extract(corpus)[:3]
-        print(tokens)
+        
+        
         return tokens[0]

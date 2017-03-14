@@ -34,6 +34,7 @@ def get_photo_description(imageUrl):
 
     try:
         labelResponses = response['responses'][0]['labelAnnotations']
+        
     except:
         pass
     
