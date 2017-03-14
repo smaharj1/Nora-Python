@@ -15,30 +15,32 @@ class Processor(object):
         
         #info = TwilioController.getMessage(req)
         info = []
-        info[1] = "https://www.sanrio.com/media/W1siZiIsIjIwMTYvMDYvMTMvMTQvMTEvNDAvMTQvY2hhcmFjdGVyX2Jhbm5lcl9oZWxsb2tpdHR5LnBuZyJdXQ/character_banner_hellokitty.png?sha=95006e8644727395"
-        info[0] = "+12016754068"
-        imageUrl = info[1]
-        phone = info[0]
+        #info[1] = 
+        imageUrl = "https://www.sanrio.com/media/W1siZiIsIjIwMTYvMDYvMTMvMTQvMTEvNDAvMTQvY2hhcmFjdGVyX2Jhbm5lcl9oZWxsb2tpdHR5LnBuZyJdXQ/character_banner_hellokitty.png?sha=95006e8644727395"
+        #info[0] = "+12016754068"
+        #imageUrl = info[1]
+        #phone = info[0]
+        phone = "+12016754068"
         google = Google()
-        amazon = AmazonController()
+        #amazon = AmazonController()
 
         tokens = google.GetTokens(imageUrl)
         tags = google.GetLabels(imageUrl)
-        itemInfo = amazon.searchProduct(tokens)
+        #itemInfo = amazon.searchProduct(tokens)
 
         print('Storing process results ...')
         # Log the query
-        log = { 'phone' : phone,
-                'image' : imageUrl,
-                'url' : itemInfo['url'],
-                'title' : itemInfo['title'],
-                'tokens' : tokens,
-                'tags' : tags,
-                'price' : itemInfo['price'] }
+        #log = { 'phone' : phone,
+        #        'image' : imageUrl,
+        #        'url' : itemInfo['url'],
+        #        'title' : itemInfo['title'],
+        #        'tokens' : tokens,
+        #        'tags' : tags,
+        #        'price' : itemInfo['price'] }
 
-        self.db.LogQuery(log)
-        self.db.UpdateWithPost(log)
-        self.db.UpdateTags(phone, tags)
+        #self.db.LogQuery(log)
+        #self.db.UpdateWithPost(log)
+        #self.db.UpdateTags(phone, tags)
 
 
     

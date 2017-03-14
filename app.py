@@ -40,7 +40,7 @@ def Hello():
     #print(data)
     #return data
 
-    return None
+    return "good result"
 
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
