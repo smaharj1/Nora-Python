@@ -20,6 +20,7 @@ class Mongo(object):
             return cursor[0]
         
     def FindData(self, username, password):
+        '''Returns the id if the user provided information is correct'''
         result = self.mongo.db.norauser.find({'username':username, 'password': password})
 
         if (result.count() == 0):
@@ -28,6 +29,9 @@ class Mongo(object):
             res = result[0]
             return str(res['_id'])
 
+
+    def CreateAuth(self, username, pswd):
+        self.mongo.db.norauser.insert({'username': username, 'password': pswd})
 
     def CreateUser(self, data):
         self.mongo.db.Users.insert_one(data)

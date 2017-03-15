@@ -34,7 +34,7 @@ def Rootaschen():
     return render_template('index.html')
 
 
-@app.route('/user', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def Hello():
     username = request.values.get('username')
     password = request.values.get('password')
@@ -47,6 +47,17 @@ def Hello():
         res = Response(json.dumps(result))
 
     return res
+
+@app.route('/postUser', methods=['POST'])
+def CreateUser():
+    userData = {
+        'username': request.values.get('username'),
+        'pswd':request.values.get('password'),
+        'name':request.values.get('name')
+    }
+
+    db.CreateAuth(userData['username'], userData['pswd'])
+    return "True"
 
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
