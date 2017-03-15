@@ -3,8 +3,9 @@ import amazonproduct
 from AWSCredentials import CredentialsExractor as AWSCredentials
 import time
 
-
-
+from lxml import etree
+import xmltodict
+import json
 
 class AmazonController:
 
@@ -27,14 +28,41 @@ class AmazonController:
 
         print("Searching for " + str(tokens))
 
-        #result = self.amazon.search_n(5,Keywords=tokens, SearchIndex="All")
+        result = self.amazon.item_search('All', Keywords=tokens)
+
+        count = 0
+        asin = ""
+        for item in result:
+            if count < 1:
+               
+                asin= item.ASIN
+                count += 1
+            else:
+                break
+
+        result = self.amazon.item_lookup(str(asin), ResponseGroup="Offers")
+
+        #o = xmltodict.parse(etree.tostring(result.Items))
+        #print(json.dumps(o,indent=4, separators=(',', ': ')))
+
+        summary = result.Items.Item.OfferSummary
+        offers = result.Items.Item.Offers
+
+        data = {}
+
+        if summary.TotalNew > 0 :
+            data['lowNew'] = int(summary.LowestNewPrice.Amount)
+            data['lowNewFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+
+        if summary.TotalUsed > 0 :
+            data['lowUsed'] = int(summary.LowestUsedPrice.Amount)
+            data['lowUsedFormatted'] = str(summary.LowestUsedPrice.FormattedPrice)
         
-        result = self.amazon.item_lookup(tokens)
+        if summary.TotalNew > 0 :
+            data['lowRefurbished'] = int(summary.LowestNewPrice.Amount)
+            data['lowRefurbishedFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+
+        data['offerURL'] = str(offers.MoreOffersUrl)
 
 
-        #result = { 'title': query.title,
-        #            'price': query.price_and_currency,
-        #            'url': query.offer_url,
-        #            'image': query.small_image_url}
-
-        return result
+        return data

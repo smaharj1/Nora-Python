@@ -34,13 +34,19 @@ def Rootaschen():
     return render_template('index.html')
 
 
-@app.route('/hello', methods=['POST'])
+@app.route('/user', methods=['POST'])
 def Hello():
-    #data = TwilioController.getMessage(request)
-    #print(data)
-    #return data
+    username = request.values.get('username')
+    password = request.values.get('password')
 
-    return "good result"
+    result = db.FindData(username, password)
+
+    if result is None:
+        res = Response(json.dumps({}))
+    else:
+        res = Response(json.dumps(result))
+
+    return res
 
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
@@ -92,8 +98,11 @@ def GetUserData():
 
 @app.route('/ProcessImage', methods=['GET', 'POST'])
 def ProcessImage():
-    PROCESSOR.ProcessImage(request)
-    return "Good stuff\n"
+    result = PROCESSOR.ProcessImage(request)
+    resp = Response(json.dumps(result))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
+    return resp
 
 
 @app.route('/bankAnalytics', methods=['POST'])

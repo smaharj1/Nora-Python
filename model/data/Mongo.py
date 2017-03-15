@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 class Mongo(object):
     
     def __init__(self, app):
-        app.config['MONGO_DBNAME'] = 'Nora'
+        app.config['MONGO_DBNAME'] = 'nora'
         self.mongo = PyMongo(app, config_prefix='MONGO')
 
     def UpdateBankFields(self, phone, fields):
@@ -18,6 +18,15 @@ class Mongo(object):
             return None
         else:
             return cursor[0]
+        
+    def FindData(self, username, password):
+        result = self.mongo.db.norauser.find({'username':username, 'password': password})
+
+        if (result.count() == 0):
+            return None
+        else:
+            res = result[0]
+            return str(res['_id'])
 
 
     def CreateUser(self, data):
