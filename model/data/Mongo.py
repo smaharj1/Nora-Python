@@ -30,8 +30,20 @@ class Mongo(object):
             return str(res['_id'])
 
 
-    def CreateAuth(self, username, pswd):
-        self.mongo.db.norauser.insert({'username': username, 'password': pswd})
+    def CreateAuth(self, userData):
+        findInfo =  self.FindData(userData['username'], userData['pswd'])
+
+        if findInfo is None:
+            returnID = self.mongo.db.norauser.insert({'username': userData['username'], 'password': userData['pswd']})
+            self.mongo.db.noradata.insert({
+                '_id': str(returnID), 
+                'name': userData['name'],
+                'photos': []
+                })
+                
+            return True
+        else:
+            return False
 
     def CreateUser(self, data):
         self.mongo.db.Users.insert_one(data)

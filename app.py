@@ -56,8 +56,9 @@ def CreateUser():
         'name':request.values.get('name')
     }
 
-    db.CreateAuth(userData['username'], userData['pswd'])
-    return "True"
+    result = db.CreateAuth(userData)
+    res = {'status': bool(result)}
+    return Response(json.dumps(res))
 
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
