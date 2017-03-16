@@ -40,15 +40,19 @@ def Hello():
     password = request.values.get('password')
 
     result = db.FindData(username, password)
-
+    
     if result is None:
-        res = Response(json.dumps({}))
+        res = Response(json.dumps({'status': False}))
     else:
-        res = Response(json.dumps(result))
+        formattedRes = {
+            'status': True,
+            'id': str(result)
+        }
+        res = Response(json.dumps(formattedRes))
 
     return res
 
-@app.route('/postUser', methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def CreateUser():
     userData = {
         'username': request.values.get('username'),
