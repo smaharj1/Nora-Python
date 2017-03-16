@@ -64,6 +64,22 @@ def CreateUser():
     res = {'status': bool(result)}
     return Response(json.dumps(res))
 
+@app.route('/storePhoto', methods=['POST'])
+def PostPhoto():
+    userID = request.headers.get('id')
+
+    photoDetail = {
+        'name': request.values.get('name'),
+        'image': request.values.get('image')
+    }
+
+    result = db.appendPhoto(userID, photoDetail)
+    #result = True
+    print("Result is " , result)
+    resp = Response(json.dumps({'status':bool(result)}))
+
+    return resp
+
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
     result = Accounts.CreateNewUser(db, {'name' : 'Herb Muddlefoot', 

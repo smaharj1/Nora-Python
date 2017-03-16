@@ -18,7 +18,18 @@ class Mongo(object):
             return None
         else:
             return cursor[0]
+    
+    def appendPhoto(self, userID, userData):
+
+        listFound = self.mongo.db.noradata.find({'_id': str(userID)})
         
+        if listFound.count() != 0:
+            data = listFound[0]['photos']
+            data.append(userData)
+
+            self.mongo.db.noradata.update({'_id': str(userID)}, {'$set': {'photos': data}}, upsert=False)
+
+
     def FindData(self, username, password):
         '''Returns the id if the user provided information is correct'''
         result = self.mongo.db.norauser.find({'username':username, 'password': password})
@@ -40,7 +51,7 @@ class Mongo(object):
                 'name': userData['name'],
                 'photos': []
                 })
-                
+
             return True
         else:
             return False
