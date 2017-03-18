@@ -8,6 +8,8 @@ import json, random
 #from model.integration.twilio.TwilioController import TwilioController
 from model.Processor import Processor
 import pyimgur
+import requests
+import base64
 
 app = Flask(__name__)
 db = Mongo(app)
@@ -74,14 +76,18 @@ def CreateUser():
 def PostPhoto():
     userID = request.headers.get('id')
 
+    # temp
+    #rrr = requests.get("http://icons.iconarchive.com/icons/icons-land/musical/128/Violin-icon.png").content
+
+    #image_content = base64.b64encode(rrr)
+    #print image_content
+
     photoDetail = {
         'name': request.values.get('name'),
         'image': request.values.get('image')
     }
-
     result = db.appendPhoto(userID, photoDetail)
-    #result = True
-    print("Result is " , result)
+
     resp = Response(json.dumps({'status':bool(result)}))
 
     return resp
@@ -171,6 +177,17 @@ def ProcessImage():
     resp.headers['Access-Control-Allow-Origin'] = '*'
 
     return resp
+
+@app.route('/keywordSearch', methods=['POST'])
+def keywordSearch():
+    userID = request.headers.get('id')
+
+    userExists = db.userExists(userID)
+
+    if userExists:
+        result = PROCESSOR.SearchWithKeyword(request.values.get('term'))
+    
+    return Response(json.dumps(result))
 
 
 @app.route('/bankAnalytics', methods=['POST'])

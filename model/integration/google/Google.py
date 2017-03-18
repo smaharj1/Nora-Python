@@ -27,7 +27,7 @@ class Google(object):
                     'tags' : []}
         
         result['tokens'] = self.SearchImage(imageURL)
-        result['tags'] = self.GetLabels(imageURL)
+        #result['tags'] = self.GetLabels(imageURL)
         #print("Result token:" + result['tokens'])
         #print("Result tags: " + result['tags'])
         

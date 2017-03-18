@@ -9,6 +9,13 @@ class Processor(object):
 
     def __init__(self, db):
         self.db = db
+        self.amazon = AmazonController()
+
+    def SearchWithKeyword(self, keywords):
+        itemInfo = self.amazon.searchProduct(keywords)
+
+        return itemInfo
+
 
     def ProcessImage(self, imageUrl):
         # Get the image from the phone instead of twilio
@@ -22,14 +29,14 @@ class Processor(object):
         #phone = info[0]
         phone = "+12016754068"
         google = Google()
-        amazon = AmazonController()
+        #amazon = AmazonController()
 
         tokens = google.GetTokens(imageUrl)
         #tags = google.GetLabels(imageUrl)
         print "the tokens are: "
         print tokens
         #tokens = ["samsung", "mobile phone"]
-        itemInfo = amazon.searchProduct(tokens)
+        itemInfo = self.amazon.searchProduct(tokens)
 
         print "URL of the photo: " + str(imageUrl)
         
