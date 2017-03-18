@@ -40,6 +40,15 @@ class Mongo(object):
             res = result[0]
             return str(res['_id'])
 
+    def getAllPhotos(self, userID):
+        listFound = self.mongo.db.noradata.find({'_id':str(userID)})
+
+        if listFound.count() != 0:
+            data = listFound[0]['photos']
+            return data
+        else:
+            return None
+
 
     def CreateAuth(self, userData):
         findInfo =  self.FindData(userData['username'], userData['pswd'])

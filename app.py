@@ -80,6 +80,24 @@ def PostPhoto():
 
     return resp
 
+@app.route('/getPhotos', methods=['GET'])
+def getPhotos():
+    userID = request.headers.get('id')
+
+    photos = db.getAllPhotos(userID)
+
+    if photos is not None:
+        resp = {
+            'status' : bool(True),
+            'photos' : photos
+        }
+    else:
+        resp = {
+            'status' : bool(False)
+        }
+
+    return Response(json.dumps(resp))
+
 @app.route('/createDemoUser', methods=['GET', 'POST'])
 def CreateDemoUser():
     result = Accounts.CreateNewUser(db, {'name' : 'Herb Muddlefoot', 
