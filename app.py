@@ -148,7 +148,15 @@ def GetUserData():
 
 @app.route('/ProcessImage', methods=['GET', 'POST'])
 def ProcessImage():
-    result = PROCESSOR.ProcessImage(request)
+    userID = request.headers.get('id')
+
+    userExists = db.userExists(userID)
+
+    if userExists:
+        # The image received is already base64 encoded. 
+        encodedImage = request.values.get("photo")
+        result = PROCESSOR.ProcessImage(encodedImage)
+
     resp = Response(json.dumps(result))
     resp.headers['Access-Control-Allow-Origin'] = '*'
 

@@ -6,15 +6,16 @@ from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
 
-def get_photo_description(imageUrl):
+def get_photo_description(encodedImage):
     """Run a label request on a single image"""
 
     credentials = GoogleCredentials.get_application_default()
     service = discovery.build('vision', 'v1', credentials=credentials)
 
-    response = requests.get(imageUrl).content
+    #response = requests.get(imageUrl).content
 
-    image_content = base64.b64encode(response)
+    #image_content = base64.b64encode(response)
+    image_content = encodedImage
     service_request = service.images().annotate(body={
         'requests': [{
             'image': {

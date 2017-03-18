@@ -40,6 +40,14 @@ class Mongo(object):
             res = result[0]
             return str(res['_id'])
 
+    def userExists(self, userID):
+        user = self.mongo.db.noradata.find({'_id':str(userID)})
+
+        if user.count() == 0:
+            return False
+        else:
+            return True
+
     def getAllPhotos(self, userID):
         listFound = self.mongo.db.noradata.find({'_id':str(userID)})
 
