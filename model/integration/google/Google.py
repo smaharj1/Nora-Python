@@ -22,26 +22,26 @@ class Google(object):
         self.pattern = re.compile('([^\s\w]|_)+')
 
     
-    def GetTokens(self, encodedImage):
+    def GetTokens(self, imageURL):
         result = {'tokens' : [],
                     'tags' : []}
         
-        result['tokens'] = self.SearchImage(encodedImage)
-        result['tags'] = self.GetLabels(encodedImage)
-        print("Result token:" + result['tokens'])
-        print("Result tags: " + result['tags'])
+        result['tokens'] = self.SearchImage(imageURL)
+        result['tags'] = self.GetLabels(imageURL)
+        #print("Result token:" + result['tokens'])
+        #print("Result tags: " + result['tags'])
         
         return result
 
 
 
-    def GetLabels(self, encodedImage):
-        return get_photo_description(encodedImage)
+    def GetLabels(self, imageUrl):
+        return get_photo_description(imageUrl)
 
 
-    def SearchImage(self, encodedImage):
+    def SearchImage(self, imageUrl):
 
-        path = Google.google_url + encodedImage
+        path = Google.google_url + imageUrl
 
         sourceCode = Google.opener.open(path).read()
         soup = BeautifulSoup(sourceCode)
@@ -51,8 +51,8 @@ class Google(object):
         emphases = soup.select('em')
         
         tokens = [item.text for item in emphases]
-        print("TOKENS: ")
-        print(tokens)
+        #print("TOKENS: ")
+        #print(tokens)
 
         corpus = []
 

@@ -10,13 +10,13 @@ class Processor(object):
     def __init__(self, db):
         self.db = db
 
-    def ProcessImage(self, encodedImage):
+    def ProcessImage(self, imageUrl):
         # Get the image from the phone instead of twilio
         
         #info = TwilioController.getMessage(req)
         info = []
         #info[1] = 
-        imageUrl = "http://compass.xbox.com/assets/23/0d/230dc52a-8f0e-40bf-bbd1-c51fdb8371e3.png?n=Homepage-360-UA_Upgrade-big_1056x594.png"
+        #imageUrl = "http://compass.xbox.com/assets/23/0d/230dc52a-8f0e-40bf-bbd1-c51fdb8371e3.png?n=Homepage-360-UA_Upgrade-big_1056x594.png"
         #info[0] = "+12016754068"
         #imageUrl = info[1]
         #phone = info[0]
@@ -24,14 +24,15 @@ class Processor(object):
         google = Google()
         amazon = AmazonController()
 
-        #tokens = google.GetTokens(imageUrl)
+        tokens = google.GetTokens(imageUrl)
         #tags = google.GetLabels(imageUrl)
-
-        tokens = google.GetTokens(encodedImage)
-        #tags = google.GetLabels(encodedImage)
+        print "the tokens are: "
+        print tokens
         #tokens = ["samsung", "mobile phone"]
         itemInfo = amazon.searchProduct(tokens)
 
+        print "URL of the photo: " + str(imageUrl)
+        
         print("Item info")
         print (itemInfo)
 

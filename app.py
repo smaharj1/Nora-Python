@@ -7,10 +7,16 @@ from model.Accounts import Accounts
 import json, random
 #from model.integration.twilio.TwilioController import TwilioController
 from model.Processor import Processor
+import pyimgur
 
 app = Flask(__name__)
 db = Mongo(app)
 PROCESSOR = Processor(db)
+
+# This doesn't make any difference. It can be publicly available.
+CLIENT_ID = "b4937abf52e3994"
+
+im = pyimgur.Imgur(CLIENT_ID)
 
 DemoURLs = [
     "http://compass.xbox.com/assets/23/0d/230dc52a-8f0e-40bf-bbd1-c51fdb8371e3.png?n=Homepage-360-UA_Upgrade-big_1056x594.png",
@@ -155,7 +161,11 @@ def ProcessImage():
     if userExists:
         # The image received is already base64 encoded. 
         encodedImage = request.values.get("photo")
-        result = PROCESSOR.ProcessImage(encodedImage)
+        uploadedImage = im._send_request('https://api.imgur.com/3/image',
+            method='POST', params={
+                'image': encodedImage
+            })
+        result = PROCESSOR.ProcessImage(uploadedImage['link'])
 
     resp = Response(json.dumps(result))
     resp.headers['Access-Control-Allow-Origin'] = '*'

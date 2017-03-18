@@ -20,11 +20,12 @@ class AmazonController:
 
     def searchProduct(self, product):
 
-        #tokens = product['tokens']
-        #tags = product['tags']
+        tokens = product['tokens']
+        tags = product['tags'][0]
 
-        tokens = ''.join([product[0]," ",product[1]])
+        #tokens = ''.join([product[0]," ",product[1]])
         
+        tokens = ''.join(tokens + " " + tags)
 
         print("Searching for " + str(tokens))
 
