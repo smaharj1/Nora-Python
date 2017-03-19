@@ -42,7 +42,7 @@ class AmazonController:
 
         result = self.amazon.item_lookup(str(asin), ResponseGroup='Offers' )
 
-        #o = xmltodict.parse(etree.tostring(result.Items))
+        # o = xmltodict.parse(etree.tostring(result.Items))
         #print(json.dumps(o,indent=4, separators=(',', ': ')))
 
         summary = result.Items.Item.OfferSummary
@@ -53,20 +53,29 @@ class AmazonController:
         data = {}
 
         if summary.TotalNew > 0 :
-            data['lowNew'] = int(summary.LowestNewPrice.Amount)
             data['lowNewFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+            if "Too low" in data['lowNewFormatted']:
+                data['lowNew'] = sys.maxint
+            else:
+                data['lowNew'] = int(summary.LowestNewPrice.Amount)
         else:
             data['lowNew'] = sys.maxint
 
         if summary.TotalUsed > 0 :
-            data['lowUsed'] = int(summary.LowestUsedPrice.Amount)
             data['lowUsedFormatted'] = str(summary.LowestUsedPrice.FormattedPrice)
+            if "Too low" in data['lowUsedFormatted']:
+                data['lowUsed'] = sys.maxint
+            else:
+                data['lowUsed'] = int(summary.LowestUsedPrice.Amount)            
         else:
             data['lowUsed'] = sys.maxint
         
         if summary.TotalNew > 0 :
-            data['lowRefurbished'] = int(summary.LowestNewPrice.Amount)
             data['lowRefurbishedFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+            if "Too low" in data['lowRefurbishedFormatted']:
+                data['lowRefurbished'] = sys.maxint
+            else:
+                data['lowRefurbished'] = int(summary.LowestNewPrice.Amount)
         else:
             data['lowRefurbished'] = sys.maxint
 
