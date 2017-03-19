@@ -13,37 +13,54 @@ class Processor(object):
 
     def SearchWithKeyword(self, keywords):
         itemInfo = self.amazon.searchProduct(keywords)
+        
+        print "Items are : "
+        
+        result = self.filterLowestPrice(itemInfo)
 
-        return itemInfo
+        return result
 
+
+    def filterLowestPrice(self, item):
+        lowNew = item['lowNew']
+        lowUsed = item['lowUsed']
+        lowRefurbished = item['lowRefurbished']
+
+        minimumVal = min(lowNew, lowUsed, lowRefurbished)
+        result = {}
+        
+        if (minimumVal == lowNew):
+            result['condition'] = "New"
+            result['price'] = item['lowNewFormatted']
+        elif minimumVal == lowUsed:
+            result['condition'] = "Used"
+            result['price'] = item['lowUsedFormatted']
+        else:
+            result['condition'] = "Refurbished"
+            result['price'] = item['lowRefurbishedFormatted']
+
+        result['offerURL'] = item['offerURL']
+        result['detail'] = item['detailPage']
+
+        return result
 
     def ProcessImage(self, imageUrl):
         # Get the image from the phone instead of twilio
-        
-        #info = TwilioController.getMessage(req)
-        info = []
-        #info[1] = 
-        #imageUrl = "http://compass.xbox.com/assets/23/0d/230dc52a-8f0e-40bf-bbd1-c51fdb8371e3.png?n=Homepage-360-UA_Upgrade-big_1056x594.png"
-        #info[0] = "+12016754068"
-        #imageUrl = info[1]
-        #phone = info[0]
-        phone = "+12016754068"
+
         google = Google()
-        #amazon = AmazonController()
 
         tokens = google.GetTokens(imageUrl)
+        searchString = tokens['tokens'] 
+        searchString += ", " + str(tokens['tags'])
         #tags = google.GetLabels(imageUrl)
         print "the tokens are: "
         print tokens
         #tokens = ["samsung", "mobile phone"]
-        itemInfo = self.amazon.searchProduct(tokens)
+        itemInfo = self.amazon.searchProduct(searchString)
 
-        print "URL of the photo: " + str(imageUrl)
-        
-        print("Item info")
-        print (itemInfo)
+        result = self.filterLowestPrice(itemInfo)
 
-        return itemInfo
+        return result
         # Log the query
         #log = { 'phone' : phone,
         #        'image' : imageUrl,

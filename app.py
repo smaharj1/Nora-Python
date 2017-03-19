@@ -162,19 +162,18 @@ def GetUserData():
 def ProcessImage():
     userID = request.headers.get('id')
 
-    userExists = db.userExists(userID)
 
-    if userExists:
-        # The image received is already base64 encoded. 
-        encodedImage = request.values.get("photo")
-        uploadedImage = im._send_request('https://api.imgur.com/3/image',
-            method='POST', params={
-                'image': encodedImage
-            })
-        result = PROCESSOR.ProcessImage(uploadedImage['link'])
+    # The image received is already base64 encoded. 
+    encodedImage = request.values.get("photo")
+    uploadedImage = im._send_request('https://api.imgur.com/3/image',
+        method='POST', params={
+            'image': encodedImage
+        })
+    result = PROCESSOR.ProcessImage(uploadedImage['link'])
 
     resp = Response(json.dumps(result))
     resp.headers['Access-Control-Allow-Origin'] = '*'
+
 
     return resp
 
@@ -186,8 +185,9 @@ def keywordSearch():
 
     if userExists:
         result = PROCESSOR.SearchWithKeyword(request.values.get('term'))
-    
-    return Response(json.dumps(result))
+        return Response(json.dumps(result))
+    else:
+        return Response(json.dumps({'status': bool(False)}))
 
 
 @app.route('/bankAnalytics', methods=['POST'])

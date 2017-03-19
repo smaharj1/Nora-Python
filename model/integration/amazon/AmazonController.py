@@ -6,6 +6,7 @@ import time
 from lxml import etree
 import xmltodict
 import json
+import sys
 
 class AmazonController:
 
@@ -20,12 +21,7 @@ class AmazonController:
 
     def searchProduct(self, product):
 
-        tokens = product['tokens']
-        #tags = product['tags'][0]
-
-        #tokens = ''.join([product[0]," ",product[1]])
-        
-        #tokens = ''.join(tokens + " " + tags)
+        tokens = product
 
         print("Searching for " + str(tokens))
 
@@ -40,8 +36,11 @@ class AmazonController:
                 count += 1
             else:
                 break
+        
+        #This is for small result for links
+        smallResult = self.amazon.item_lookup(str(asin))
 
-        result = self.amazon.item_lookup(str(asin), ResponseGroup="Offers")
+        result = self.amazon.item_lookup(str(asin), ResponseGroup='Offers' )
 
         #o = xmltodict.parse(etree.tostring(result.Items))
         #print(json.dumps(o,indent=4, separators=(',', ': ')))
@@ -49,21 +48,29 @@ class AmazonController:
         summary = result.Items.Item.OfferSummary
         offers = result.Items.Item.Offers
 
+        smallGroup = smallResult.Items.Item
+
         data = {}
 
         if summary.TotalNew > 0 :
             data['lowNew'] = int(summary.LowestNewPrice.Amount)
             data['lowNewFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+        else:
+            data['lowNew'] = sys.maxint
 
         if summary.TotalUsed > 0 :
             data['lowUsed'] = int(summary.LowestUsedPrice.Amount)
             data['lowUsedFormatted'] = str(summary.LowestUsedPrice.FormattedPrice)
+        else:
+            data['lowUsed'] = sys.maxint
         
         if summary.TotalNew > 0 :
             data['lowRefurbished'] = int(summary.LowestNewPrice.Amount)
             data['lowRefurbishedFormatted'] = str(summary.LowestNewPrice.FormattedPrice)
+        else:
+            data['lowRefurbished'] = sys.maxint
 
         data['offerURL'] = str(offers.MoreOffersUrl)
-
+        data['detailPage'] = str(smallGroup.DetailPageURL)
 
         return data
