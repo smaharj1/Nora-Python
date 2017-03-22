@@ -51,7 +51,8 @@ class Processor(object):
 
         tokens = google.GetTokens(imageUrl)
         searchString = tokens['tokens'] 
-        searchString += ", " + str(tokens['tags'])
+        searchString = searchString.split(' ', 1)[0]
+        #searchString += ", " + str(tokens['tags'])
         #tags = google.GetLabels(imageUrl)
         print "the tokens are: "
         print tokens
